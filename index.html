@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <title>Weather App Desktop - Echtzeit Wetter</title>
+    <meta name="description" content="Echtzeit Wetter App mit Karte, Diagrammen, Favoriten und Wettervergleich">
+    <meta name="author" content="Weather App">
+    <meta name="theme-color" content="#131214" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f5f5f5" media="(prefers-color-scheme: light)">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="./favicon.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS für Karte -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Eigene CSS -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <!-- Kopfbereich -->
+    <header class="header">
+        <div class="container">
+            <a href="#/current-location" class="logo" aria-label="Startseite">
+                <img src="./assets/images/logo.png" width="164" height="58" alt="Weather App Logo">
+            </a>
+
+            <!-- Suchbereich (Desktop) -->
+            <div class="search-view" data-search-view>
+                <div class="search-wrapper">
+                    <span class="m-icon leading-icon" aria-hidden="true">search</span>
+                    <input type="search" name="search" placeholder="Stadt suchen..." autocomplete="off" class="search-field" data-search-field>
+                    <button class="icon-btn leading-icon has-state" aria-label="Suche schließen" data-search-toggler>
+                        <span class="m-icon" aria-hidden="true">arrow_back</span>
+                    </button>
+                </div>
+                <div class="search-result" data-search-result role="listbox"></div>
+            </div>
+
+            <!-- Aktionsbuttons -->
+            <div class="header-actions">
+                <button class="icon-btn has-state" aria-label="Suche öffnen" data-search-toggler>
+                    <span class="m-icon" aria-hidden="true">search</span>
+                </button>
+
+                <button class="icon-btn has-state" aria-label="Städte vergleichen" data-open-comparer>
+                    <span class="m-icon" aria-hidden="true">compare</span>
+                </button>
+
+                <button class="icon-btn has-state" aria-label="Wetter vorlesen" data-speak-btn>
+                    <span class="m-icon" aria-hidden="true">record_voice_over</span>
+                </button>
+
+                <button class="icon-btn has-state" aria-label="Benachrichtigungen aktivieren" data-notification-btn>
+                    <span class="m-icon" aria-hidden="true">notifications</span>
+                </button>
+
+                <button class="icon-btn has-state theme-toggle" aria-label="Dark/Light Modus umschalten" title="Dark/Light Modus">
+                    <span class="m-icon" aria-hidden="true">dark_mode</span>
+                </button>
+
+                <button class="icon-btn has-state unit-toggle" aria-label="Temperatureinheit umschalten" title="°C / °F">
+                    <span class="m-icon" aria-hidden="true">thermostat</span>
+                </button>
+
+                <a href="#/current-location" class="btn-primary has-state" data-current-location-btn aria-label="Aktuellen Standort anzeigen">
+                    <span class="m-icon" aria-hidden="true">my_location</span>
+                    <span class="span">Aktueller Standort</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hauptbereich -->
+    <main>
+        <article class="container" data-container>
+            <!-- Linke Spalte -->
+            <div class="content-left">
+                <!-- Aktuelles Wetter -->
+                <section class="section current-weather" aria-label="Aktuelles Wetter" data-current-weather>
+                    <!-- Wird dynamisch befüllt -->
+                </section>
+
+                <!-- 5-Tage-Vorhersage -->
+                <section class="section forecast" aria-labelledby="forecast-label" data-5-day-forecast>
+                    <!-- Wird dynamisch befüllt -->
+                </section>
+            </div>
+
+            <!-- Rechte Spalte -->
+            <div class="content-right">
+                <!-- Highlights -->
+                <section class="section highlights" aria-labelledby="highlights-label" data-highlights>
+                    <!-- Wird dynamisch befüllt -->
+                </section>
+
+                <!-- Wetterkarte -->
+                <section class="section weather-map-section" aria-label="Wetterkarte">
+                    <div class="card card-lg">
+                        <h2 class="title-2">📍 Wetterkarte</h2>
+                        <div data-weather-map class="weather-map-container" style="height: 300px; border-radius: 16px; margin-top: 16px; overflow: hidden;"></div>
+                    </div>
+                </section>
+
+                <!-- Temperatur-Diagramm -->
+                <section class="section temperature-chart" aria-label="Temperaturdiagramm">
+                    <div class="card card-lg">
+                        <h2 class="title-2">📈 Temperaturverlauf (heute)</h2>
+                        <div class="chart-container" style="position: relative; height: 300px; margin-top: 16px;">
+                            <canvas id="tempChart" data-temp-chart style="width: 100%; height: 100%;"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stündliche Vorhersage -->
+                <section class="section hourly-forecast" aria-label="Stündliche Vorhersage" data-hourly-forecast>
+                    <h2 class="title-2">Heute im Stundenverlauf</h2>
+                    <div class="slider-container">
+                        <ul class="slider-list" data-temp></ul>
+                        <ul class="slider-list" data-wind></ul>
+                    </div>
+                </section>
+
+                <!-- Footer -->
+                <footer class="footer">
+                    <p class="body-3">&copy; 2025 Weather App. Alle Rechte vorbehalten.</p>
+                </footer>
+            </div>
+
+            <!-- Ladeanimation -->
+            <div class="loading" data-loading style="display: none;" aria-label="Lade Wetterdaten">
+                <div class="loading-spinner"></div>
+            </div>
+        </article>
+    </main>
+
+    <!-- 404 Fehlerseite -->
+    <section class="error-content" data-error-content style="display: none;" aria-label="Fehlerseite">
+        <div class="error-content-inner">
+            <h2 class="heading">404</h2>
+            <p class="body-1">Seite nicht gefunden!</p>
+            <a href="#/current-location" class="btn-primary">
+                <span class="m-icon" aria-hidden="true">home</span>
+                <span class="span">Zur Startseite</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Bibliotheken (mit Fallback) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Fallback für Leaflet
+        if (typeof L === 'undefined') {
+            console.warn('Leaflet konnte nicht geladen werden');
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Fallback für Chart.js
+        if (typeof Chart === 'undefined') {
+            console.warn('Chart.js konnte nicht geladen werden');
+        }
+    </script>
+    
+    <!-- Eigene Module (type="module" für ES6) -->
+    <script src="./js/app.js" type="module"></script>
+    <script src="./js/route.js" type="module"></script>
+</body>
+</html>
