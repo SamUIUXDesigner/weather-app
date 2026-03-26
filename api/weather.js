@@ -1,6 +1,5 @@
-// api/weather.js
 export default async function handler(req, res) {
-    // CORS Header für Sicherheit
+    // CORS Header
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     
@@ -14,7 +13,6 @@ export default async function handler(req, res) {
         return res.status(400).json({ error: 'lat und lon werden benötigt' });
     }
     
-    // API-Key aus Umgebungsvariable
     const API_KEY = process.env.WEATHER_API_KEY;
     
     if (!API_KEY) {

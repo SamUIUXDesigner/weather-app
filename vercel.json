@@ -1,8 +1,13 @@
 {
   "version": 2,
+  "functions": {
+    "api/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "builds": [
     {
-      "src": "api/**/*.js",
+      "src": "api/*.js",
       "use": "@vercel/node"
     },
     {
@@ -18,10 +23,6 @@
     {
       "src": "/(.*)",
       "dest": "/$1"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
     }
   ]
 }
