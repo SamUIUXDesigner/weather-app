@@ -144,26 +144,6 @@ export const convertSpeed = (kmh) => {
 };
 
 /**
- * Luftdruck umrechnen (hPa zu inHg)
- */
-export const convertPressure = (hpa) => {
-    if (currentUnitSystem === UNIT_SYSTEMS.IMPERIAL) {
-        return hpa * 0.02953;
-    }
-    return hpa;
-};
-
-/**
- * Distanz umrechnen (km zu mi)
- */
-export const convertDistance = (km) => {
-    if (currentUnitSystem === UNIT_SYSTEMS.IMPERIAL) {
-        return km * 0.621371;
-    }
-    return km;
-};
-
-/**
  * Temperatur formatieren
  */
 export const formatTemperature = (celsius, round = true) => {
@@ -179,24 +159,6 @@ export const formatSpeed = (kmh, round = true) => {
     const value = convertSpeed(kmh);
     const rounded = round ? Math.round(value) : value.toFixed(1);
     return `${rounded} ${getUnitSymbol('speed')}`;
-};
-
-/**
- * Luftdruck formatieren
- */
-export const formatPressure = (hpa, round = true) => {
-    const value = convertPressure(hpa);
-    const rounded = round ? Math.round(value) : value.toFixed(1);
-    return `${rounded} ${getUnitSymbol('pressure')}`;
-};
-
-/**
- * Distanz formatieren
- */
-export const formatDistance = (km, round = true) => {
-    const value = convertDistance(km);
-    const rounded = round ? value.toFixed(1) : value.toFixed(2);
-    return `${rounded} ${getUnitSymbol('distance')}`;
 };
 
 /**
